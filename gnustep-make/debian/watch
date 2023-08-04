@@ -1,8 +1,8 @@
 # See uscan(1) for format
 
-# Compulsory line, this is a version 4 file
 version=4
 
-opts="filenamemangle=s%(?:.*?)?make-(\d[\d_]*)/gnustep-make-(\d[\d.]*)\.tar\.gz%tools-make-$1.tar.gz%" \
-  https://github.com/gnustep/tools-make/tags \
-  (?:.*?/)?make-(\d[\d_]*)/gnustep-make-(\d[\d.]*)\.tar\.gz debian uupdate
+opts="searchmode=plain, versionmangle=s/_/./g, \
+filenamemangle=s/.+\/make-(?:[-_]?v?(\d[\_\-+\.:\~\da-zA-Z]*))/@PACKAGE@-$1\.tar\.gz/" \
+https://api.github.com/repos/gnustep/tools-make/releases?per_page=5 \
+https://api.github.com/repos/gnustep/tools-make/tarball/make-(?:[-_]?v?(\d[\_\-+\.:\~\da-zA-Z]*))
