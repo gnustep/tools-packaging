@@ -6,7 +6,11 @@
 override_dh_auto_configure:
 	dh_auto_configure -- \
 	-DCMAKE_C_COMPILER=clang \
+	-DGNUSTEP_INSTALL_TYPE=NONE \
 	-DCMAKE_CXX_COMPILER=clang++ \
 	-DCMAKE_LINKER=ld.lld \
 	-DTESTS=OFF \
 	-DCMAKE_BUILD_TYPE=Release
+
+override_dh_dwz:
+	dh_dwz || true
