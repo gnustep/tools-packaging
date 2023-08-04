@@ -2,7 +2,7 @@ Source: libdispatch
 Section: libs
 Priority: optional
 Maintainer: Hugo Melder <contact@hugomelder.com>
-Build-Depends: debhelper (>= 12), cmake, clang, lld, libobjc2-dev
+Build-Depends: debhelper-compat (= 13), dh-cmake, cmake, clang, lld, libobjc2-dev
 Standards-Version: 4.6.2.0
 
 Package: libdispatch

@@ -2,7 +2,7 @@ Source: gnustep-make
 Section: devel
 Priority: optional
 Maintainer: Hugo Melder <contact@hugomelder.com>
-Build-Depends: debhelper-compat (>= 12), make, autoconf, lld, clang, libobjc2-dev
+Build-Depends: debhelper-compat (= 13), make, autoconf, lld, clang, libobjc2-dev
 Standards-Version: 4.6.2.0
 
 Package: gnustep-make

@@ -2,7 +2,7 @@ Source: gnustep-base
 Section: libs
 Priority: optional
 Maintainer: Hugo Melder <contact@hugomelder.com>
-Build-Depends: debhelper (>= 12), libffi-dev, libxml2-dev, gnutls-dev, libxslt-dev, icu-dev, libcurl4-openssl-dev, pkg-config, libdispatch-dev, libobjc2-dev, gnustep-make
+Build-Depends: debhelper (= 13), libffi-dev, libxml2-dev, gnutls-dev, libxslt-dev, icu-dev, libcurl4-openssl-dev, pkg-config, libdispatch-dev, libobjc2-dev, gnustep-make
 Standards-Version: 4.6.2.0
 
 Package: gnustep-base
