@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ 
+
+override_dh_auto_configure:
+	./configure \
+  	--enable-native-objc-exceptions \
+  	--enable-objc-arc \
+  	--with-layout=fhs \
+		--prefix=/usr \
+  	--with-runtime-abi=gnustep-2.0 \
+  	--with-library-combo=ng-gnu-gnu \
+  	LDFLAGS="-fuse-ld=lld -L/usr/lib/$(DEB_HOST_MULTIARCH)" \
+
+override_dh_auto_build:
+	make

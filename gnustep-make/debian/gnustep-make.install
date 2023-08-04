@@ -1,0 +1,3 @@
+usr/bin/*
+usr/share/GNUstep/Makefiles/*
+etc/GNUstep/GNUstep.conf

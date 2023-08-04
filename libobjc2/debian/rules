@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+	-DCMAKE_C_COMPILER=clang \
+	-DCMAKE_CXX_COMPILER=clang++ \
+	-DCMAKE_LINKER=ld.lld \
+	-DTESTS=OFF \
+	-DCMAKE_BUILD_TYPE=Release

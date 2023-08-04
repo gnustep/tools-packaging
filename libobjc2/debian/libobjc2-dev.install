@@ -1,0 +1,3 @@
+usr/lib/*/libobjc.so
+usr/include/*
+usr/lib/*/pkgconfig/libobjc.pc

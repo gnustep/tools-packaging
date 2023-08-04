@@ -1,0 +1,8 @@
+# See uscan(1) for format
+
+# Compulsory line, this is a version 4 file
+version=4
+
+opts="filenamemangle=s%(?:.*?)?swift-(\d[\d.]*)-RELEASE.tar.gz%libdispatch-$1.tar.gz%" \
+  https://github.com/apple/swift-corelibs-libdispatch/tags \
+  (?:.*?/)?swift-(\d[\d.]*)-RELEASE.tar.gz debian uupdate

@@ -1,0 +1,16 @@
+Source: gnustep-base
+Section: libs
+Priority: optional
+Maintainer: Hugo Melder <contact@hugomelder.com>
+Build-Depends: debhelper (>= 12), libffi-dev, libxml2-dev, gnutls-dev, libxslt-dev, icu-dev, libcurl4-openssl-dev, pkg-config, libdispatch-dev, libobjc2-dev, gnustep-make
+Standards-Version: 4.6.2.0
+
+Package: gnustep-base
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libobjc2, libffi, libxml2, gnutls, libxslt, icu, libcurl4-openssl
+Description: GNUstep Base Library (Foundation)
+
+Package: gnustep-base-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libobjc2-dev, libffi-dev, libxml2-dev, gnutls-dev, libxslt-dev, icu-dev, libcurl4-openssl-dev, pkg-config, libdispatch-dev, gnustep-make
+Description: GNUstep Base Library Development Files (Foundation)

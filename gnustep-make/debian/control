@@ -1,0 +1,11 @@
+Source: gnustep-make
+Section: devel
+Priority: optional
+Maintainer: Hugo Melder <contact@hugomelder.com>
+Build-Depends: debhelper-compat (>= 12), make, autoconf, lld, clang, libobjc2-dev
+Standards-Version: 4.6.2.0
+
+Package: gnustep-make
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, make, lld, clang, libobjc2
+Description: The GNUstep makefile package is a simple, powerful and extensible way to write makefiles for a GNUstep-based project.
