@@ -1,0 +1,14 @@
+{
+    "name": "gnustep-make",
+    "tag": "make-2_9_1",
+    "git": "https://github.com/gnustep/tools-make.git",
+    "dist": [
+        {
+            "name": "debian",
+            "platform": "linux",
+            "packaging": "dpkg",
+            "config_path": "debian/",
+            "patches": []
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "gnustep-base",
+    "tag": "base-1_29_0",
+    "git": "https://github.com/gnustep/libs-base.git",
+    "dist": [
+        {
+            "name": "debian",
+            "platform": "linux",
+            "packaging": "dpkg",
+            "config_path": "debian/",
+            "patches": []
+        }
+    ]
+}
