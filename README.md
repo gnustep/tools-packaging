@@ -1,4 +1,4 @@
-# Packaging modern GNUstep for Linux Distributions
+# Packaging modern GNUstep for Linux Distributions (WIP)
 
 This repository hosts dpkg build configuration files for the Debian GNU/Linux distribution.
 The goal is to provide a modern, and stable distribution of the GNUstep Objective-C 2.0 Runtime,
