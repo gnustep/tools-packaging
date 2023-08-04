@@ -7,6 +7,10 @@ Apple's Grand Central Dispatch, GNUstep Makefiles, and GNUstep Base (a.k.a. Foun
 Please note that the packages are experimental, and not ready for production.
 
 ## TODO
+libobjc2:
+- CMakeList.txt has a custom command for generating eh\_trampoline.S which does not escape
+  the compiler flags properly. A patch (or new release of libobjc2) is required.
+
 gnustep-make:
 - Configure gnustep-make (and gnustep-base?) to respect the multilib dir standard
 
@@ -15,3 +19,4 @@ gnustep-base:
 
 Infrastructure:
 - Automated builds
+- Build Instructions and Fetch Script
