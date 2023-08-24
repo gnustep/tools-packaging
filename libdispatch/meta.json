@@ -4,8 +4,9 @@
     "git": "https://github.com/apple/swift-corelibs-libdispatch.git",
     "dist": [
         {
+            "friendly_name": "Debian GNU/Linux",
             "name": "debian",
-            "platform": "linux",
+            "platform": "linux-gnu",
             "packaging": "dpkg",
             "config_path": "debian/",
             "patches": [
