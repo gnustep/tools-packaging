@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+set -u
+
+export GNUSTEP_MAKEFILES=/usr/share/GNUstep/Makefiles
+export GNUSTEP_INSTALLATION_DOMAIN=SYSTEM
+export DESTDIR=$AUTOPKGTEST_TMP
+
+make -C debian/tests
+make -C debian/tests install
+make -C debian/tests uninstall
+make -C debian/tests clean
+
+exit 0

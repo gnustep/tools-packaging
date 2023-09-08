@@ -1,0 +1,10 @@
+Document: gnustep-filesystem
+Title: GNUstep Filesystem Hierarchy Document
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-filesystem/index.html
+Files: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-filesystem/*.html
+
+Format: PDF
+Files: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-filesystem.pdf
