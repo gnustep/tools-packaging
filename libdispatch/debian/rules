@@ -10,6 +10,10 @@ override_dh_auto_configure:
 	-DCMAKE_LINKER=ld.lld \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_SHARED_LIBS=YES \
+	-DBUILD_TESTING=NO \
 	-DINSTALL_PRIVATE_HEADERS=YES \
 	-DBlocksRuntime_INCLUDE_DIR=/usr/include \
 	-DBlocksRuntime_LIBRARIES=/usr/lib/$(DEB_HOST_MULTIARCH)/libobjc.so
+
+override_dh_dwz:
+	dh_dwz || true

@@ -1,0 +1,22 @@
+local;Tools/gsdoc-0_6_5.dtd;@GS_DTDs_DEBIAN@/gsdoc-0_6_5.dtd
+local;Tools/gsdoc-0_6_6.dtd;@GS_DTDs_DEBIAN@/gsdoc-0_6_6.dtd
+local;Tools/gsdoc-0_6_7.dtd;@GS_DTDs_DEBIAN@/gsdoc-0_6_7.dtd
+local;Tools/gsdoc-1_0_0.dtd;@GS_DTDs_DEBIAN@/gsdoc-1_0_0.dtd
+local;Tools/gsdoc-1_0_1.dtd;@GS_DTDs_DEBIAN@/gsdoc-1_0_1.dtd
+local;Tools/gsdoc-1_0_1.rnc;@GS_DTDs_DEBIAN@/gsdoc-1_0_1.rnc
+local;Tools/gsdoc-1_0_2.dtd;@GS_DTDs_DEBIAN@/gsdoc-1_0_2.dtd
+local;Tools/gsdoc-1_0_3.dtd;@GS_DTDs_DEBIAN@/gsdoc-1_0_3.dtd
+local;Tools/gsdoc-1_0_4.dtd;@GS_DTDs_DEBIAN@/gsdoc-1_0_4.dtd
+local;Tools/plist-0_9.dtd;@GS_DTDs_DEBIAN@/plist-0_9.dtd
+
+package;public;-//GNUstep//DTD gsdoc 0.6.5//EN;@GS_DTDs_DEBIAN@/gsdoc-0_6_5.dtd
+package;public;-//GNUstep//DTD gsdoc 0.6.6//EN;@GS_DTDs_DEBIAN@/gsdoc-0_6_6.dtd
+package;public;-//GNUstep//DTD gsdoc 0.6.7//EN;@GS_DTDs_DEBIAN@/gsdoc-0_6_7.dtd
+package;public;-//GNUstep//DTD gsdoc 1.0.0//EN;@GS_DTDs_DEBIAN@/gsdoc-1_0_0.dtd
+package;public;-//GNUstep//DTD gsdoc 1.0.1//EN;@GS_DTDs_DEBIAN@/gsdoc-1_0_1.dtd
+package;public;-//GNUstep//DTD gsdoc 1.0.2//EN;@GS_DTDs_DEBIAN@/gsdoc-1_0_2.dtd
+package;public;-//GNUstep//DTD gsdoc 1.0.3//EN;@GS_DTDs_DEBIAN@/gsdoc-1_0_3.dtd
+package;public;-//GNUstep//DTD gsdoc 1.0.4//EN;@GS_DTDs_DEBIAN@/gsdoc-1_0_4.dtd
+package;public;-//GNUstep//DTD plist 0.9//EN;@GS_DTDs_DEBIAN@/plist-0_9.dtd
+root;public;-//GNUstep//DTD gsdoc
+root;public;-//GNUstep//DTD plist

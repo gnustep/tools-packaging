@@ -5,7 +5,7 @@ Maintainer: Hugo Melder <contact@hugomelder.com>
 Section: libs
 Priority: optional
 Build-Depends: debhelper-compat (= 13),
-               gnustep-make (>= 2.9.1-1),
+               gnustep-make (>= V_MAKE),
                gnutls-bin <!nocheck>,
                libffi-dev,
                libxml2-dev,
@@ -30,7 +30,7 @@ Homepage: http://gnustep.org
 
 Package: gnustep-base-common
 Architecture: all
-Depends: gnustep-common (>= 2.9.1-1),
+Depends: gnustep-common (>= V_MAKE),
          ca-certificates,
          tzdata,
          ${misc:Depends}
@@ -56,7 +56,7 @@ Description: GNUstep Base library - daemons and tools
  This package contains the runtime support files needed by GNUstep
  applications.
 
-Package: libgnustep-base1.29
+Package: libgnustep-base`'SOV_BASE
 Section: libs
 Architecture: any
 Depends: gnustep-base-common (= ${source:Version}),
@@ -78,9 +78,9 @@ Description: GNUstep Base library
 Package: libgnustep-base-dev
 Section: libdevel
 Architecture: any
-Depends: libgnustep-base1.29 (= ${binary:Version}),
+Depends: libgnustep-base`'SOV_BASE (= ${binary:Version}),
          gnustep-base-runtime (= ${binary:Version}),
-         gnustep-make (>= 2.9.1-1),
+         gnustep-make (>= V_MAKE),
          ${misc:Depends}
 Suggests: gnustep-base-doc
 Description: GNUstep Base header files and development libraries

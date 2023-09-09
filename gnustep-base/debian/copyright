@@ -1,15 +1,46 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: gnustep-base
+Upstream-Name: GNUstep Base
 Upstream-Contact: gnustep-dev@gnu.org
-Source: https://github.com/gnustep/libs-base
+Source: ftp://ftp.gnustep.org/pub/gnustep/core/
+
+Files: *
+Copyright: 1993-2022 Free Software Foundation, Inc.
+License: LGPL-2.1+
+
+Files: Documentation/* Tools/* Tests/* Examples/* config/* macosx/*
+Copyright: 1993-2022 Free Software Foundation, Inc.
+    1995-1999, 2001-2002, 2004-2006 Bruno Haible
+    2004 Alexander Malmberg
+    2008 David Ayers
+License: GPL-3+
+ This package is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or (at
+ your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General Public
+ License version 3 can be found in `/usr/share/common-licenses/GPL-3'.
 
 Files: Source/ObjectiveC2/*
 Copyright: 2009 David Chisnall
-License: MIT
+    2009 Remy Demarest
+License: Expat
 Comment:
  The ObjectiveC2 compatibility framework links statically with
  libgnustep-base, so the library as a whole (i.e. the generated object
  code) is available under LGPL-2.1+; see above).
+
+Files: Source/ObjectiveC2/sync.m
+Copyright: 1993-2020 Free Software Foundation, Inc.
+License: LGPL-2.1+
 
 Files: Source/Additions/Unicode.m
 Copyright: 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
@@ -96,7 +127,7 @@ License: permissive-simple
  notice and this notice are preserved.
 
 Files: debian/*
-Copyright: 1998-2020 Debian GNUstep maintainers
+Copyright: 1998-2023 Debian GNUstep maintainers
 License: LGPL-2.1+
 
 License: LGPL-2.1+
