@@ -10,3 +10,16 @@ Please note that the packages are experimental, and not ready for production.
 Infrastructure:
 - Automated builds
 - Build Instructions and Fetch Script
+
+## Packages
+
+Option 1: Apple naming scheme
+
+gnustep2.0-base
+gnustep2.0-gui
+gnustep2.0-make
+
+- libobjc2
+	- libobjc2-dev
+- libdispatch
+	- libdispatch-dev
