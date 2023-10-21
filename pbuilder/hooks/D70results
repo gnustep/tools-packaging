@@ -1,0 +1,8 @@
+#!/bin/sh
+# Origin: https://pbuilder-docs.readthedocs.io/en/latest/faq.html#using-special-apt-sources-lists-and-local-packages
+# Description: Index previous results in a local apt repository
+
+cd /var/cache/pbuilder/result/
+/usr/bin/dpkg-scanpackages . /dev/null > /var/cache/pbuilder/result/Packages
+/usr/bin/apt-ftparchive release . > /var/cache/pbuilder/result/Release
+/usr/bin/apt-get update

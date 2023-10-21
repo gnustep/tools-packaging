@@ -1,0 +1,5 @@
+BINDMOUNTS="/var/cache/pbuilder/result"
+
+# Use a local apt repository for resolving dependencies not yet in a public repository
+# Avoid a signing error by using the trusted=yes option
+OTHERMIRROR="deb [trusted=yes] file:///var/cache/pbuilder/result ./"
