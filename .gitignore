@@ -110,3 +110,6 @@ stamp-h1
 *.exe
 *.out
 *.app
+
+# pbuilder
+pbuilder/*.tgz
