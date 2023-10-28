@@ -1,0 +1,28 @@
+From: Eric Heintzmann <heintzmann.eric@free.fr>
+Description: Lengthen the time the tests wait for process startup.
+Forwarded: not-needed
+Last-Update: 2022-12-31
+---
+
+--- a/Tests/base/NSURLConnection/Helpers/NSURLConnectionTest.m
++++ b/Tests/base/NSURLConnection/Helpers/NSURLConnectionTest.m
+@@ -7,7 +7,7 @@
+ /* the runloop's time slice */
+ #define TIMING 0.1
+ /* the max duration of a test */
+-#define MAXDURATION 3.0
++#define MAXDURATION 5.0
+ 
+ @interface NSURLConnectionTest (Private)
+ 
+--- a/Tests/base/NSURLConnection/Helpers/TestWebServer.m
++++ b/Tests/base/NSURLConnection/Helpers/TestWebServer.m
+@@ -41,7 +41,7 @@
+ #define TIMING 0.1
+ /* the maximum duration of running of the SimpleWebServer instance
+    after which the server must be shut down */
+-#define MAXDURATION 3.0
++#define MAXDURATION 5.0
+ 
+ @implementation TestWebServer
+ 
