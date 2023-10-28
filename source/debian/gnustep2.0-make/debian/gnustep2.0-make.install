@@ -1,0 +1,37 @@
+# Install arch indep tools
+usr/bin/gnustep-config
+usr/bin/gnustep-tests
+
+# Install arch indep makefiles
+usr/share/GNUstep/Makefiles/common.make
+usr/share/GNUstep/Makefiles/clibrary.make
+usr/share/GNUstep/Makefiles/ctool.make
+usr/share/GNUstep/Makefiles/[!c]*.make
+usr/share/GNUstep/Makefiles/*.template
+usr/share/GNUstep/Makefiles/tar-exclude-list
+usr/share/GNUstep/Makefiles/gnustep-make-help
+usr/share/GNUstep/Makefiles/install-sh
+usr/share/GNUstep/Makefiles/mkinstalldirs
+usr/share/GNUstep/Makefiles/bake_debian_files.sh
+usr/share/GNUstep/Makefiles/relative_path.sh
+usr/share/GNUstep/Makefiles/strip_makefiles.sh
+usr/share/GNUstep/Makefiles/Additional/
+usr/share/GNUstep/Makefiles/Auxiliary/
+usr/share/GNUstep/Makefiles/Instance/
+usr/share/GNUstep/Makefiles/Master/
+usr/share/GNUstep/Makefiles/TestFramework/
+
+# Install debian addons
+debian/addons/config.mk usr/share/GNUstep/debian/
+
+# Compatibility: install cdbs stuff
+debian/cdbs/*.in usr/share/GNUstep/debian/
+debian/cdbs/gnustep.mk usr/share/cdbs/1/rules
+debian/cdbs/gnumakefile.mk usr/share/cdbs/1/class/
+
+# Compatibility: install dh_gnustep
+debian/dh_gnustep/dh_gnustep usr/bin/
+
+# Manpages
+usr/share/man/man1/gnustep-config.1.gz
+usr/share/man/man1/gnustep-tests.1.gz

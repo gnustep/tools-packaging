@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#export DH_VERBOSE = 1
+
+# Upstream documentation uses the @today macro which causes
+# unreproducible builds.
+include /usr/share/dpkg/pkg-info.mk
+export FORCE_SOURCE_DATE = 1
+
+# Reset all flags because dpkg's default buildflags propagate and
+# become hardcoded in gnustep-make as GNUstep's build system, which is
+# clearly undesirable (Bug#879085).
+CFLAGS := -g -O2
+CXXFLAGS := $(CFLAGS)
+OBJCFLAGS :=
+CPPFLAGS :=
+LDFLAGS :=
+
+# Instal in a temp dir
+export DESTDIR=$(CURDIR)/debian/tmp
+
+%:
+	dh $@ \
+	  --builddirectory=build-gnustep-make
+
+# Overriding the AC_PATH_PROG test for bash is necessary because it
+# produces different results with merged /usr, leading to
+# unreproducible builds.  Similarly, GNUMAKE is deliberately set to
+# make: as of make-dfsg/4.3-1 the make package provides a
+# /usr/bin/gmake symlink, but as of December 2021 it is missing on
+# GNU/Hurd and GNU/kFreeBSD since they provide only older versions of
+# make-dfsg.  Since gnustep-config is in the arch:all package it is
+# set to "gmake" which then gives empty output when invoked on
+# architectures lacking the symlink.
+override_dh_auto_configure:
+	dh_auto_configure -- \
+	    --with-layout=debian \
+		--enable-native-objc-exceptions \
+  		--enable-objc-arc \
+		--prefix=/usr \
+  		--with-runtime-abi=gnustep-2.0 \
+  		--with-library-combo=ng-gnu-gnu \
+  	LDFLAGS="-fuse-ld=lld -L/usr/lib/$(DEB_HOST_MULTIARCH)" SHELLPROG=/bin/bash GNUMAKE=make \
+
+
+# We don't have a gnustep-make installation to use, we create a temporary one
+# in the subdirectory ./tmp-installation, then run make again passing
+# GNUSTEP_MAKEFILES and PATH set to point to the new makefile installation
+override_dh_auto_build-indep:
+	dh_auto_build
+# Support "nodoc" in DEB_BUILD_PROFILES and DEB_BUILD_OPTIONS.  If
+# present in DEB_BUILD_PROFILES, the gnustep-make-doc package is not
+# built.  If present only in DEB_BUILD_OPTIONS, the gnustep-make-doc
+# package is built but it's empty (as per Policy §4.9.1).  Note that
+# the presence of "nodoc" in DEB_BUILD_PROFILES implies its presence
+# in DEB_BUILD_OPTIONS (as of 13th of February 2023, documented in
+# https://wiki.debian.org/BuildProfileSpec#Registered_profile_names).
+ifeq (,$(findstring nodoc,$(DEB_BUILD_OPTIONS)))
+	  mkdir $(CURDIR)/Documentation/build-gnustep-make-doc; \
+	  cd $(CURDIR)/Documentation/build-gnustep-make-doc; \
+	  ../../configure --prefix="$(CURDIR)/Documentation/temp-installation" \
+			  --with-layout=debian; \
+	  $(MAKE); \
+	  $(MAKE) install
+	$(MAKE) -C Documentation \
+	  messages=yes \
+	  GNUSTEP_MAKEFILES=$(CURDIR)/Documentation/temp-installation/share/GNUstep/Makefiles \
+	  PATH="$$PATH:$(CURDIR)/Documentation/temp-installation/bin"
+endif
+
+override_dh_auto_install-indep:
+	dh_auto_install -- DESTDIR=$(CURDIR)/debian/tmp
+ifeq (,$(findstring nodoc,$(DEB_BUILD_OPTIONS)))
+	test -d Documentation/temp-installation && $(MAKE) -C Documentation install \
+	    messages=yes \
+	    GNUSTEP_MAKEFILES=$(CURDIR)/Documentation/temp-installation/share/GNUstep/Makefiles \
+	    GNUSTEP_INSTALLATION_DOMAIN=SYSTEM \
+	    PATH="$$PATH:$(CURDIR)/Documentation/temp-installation/bin" \
+	    DESTDIR=""
+	cp debian/gnustep-make-doc.install.in debian/gnustep-make-doc.install
+	cp debian/gnustep-make-doc.links.in debian/gnustep-make-doc.links
+endif

@@ -1,0 +1,16 @@
+Source: libdispatch
+Section: libs
+Priority: optional
+Maintainer: Hugo Melder <contact@hugomelder.com>
+Build-Depends: debhelper-compat (= 13), dh-cmake, cmake, clang, lld, libobjc2-dev
+Standards-Version: 4.6.2.0
+
+Package: libdispatch
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libobjc2
+Description: The libdispatch Project, (a.k.a. Grand Central Dispatch), for concurrency on multicore hardware.
+
+Package: libdispatch-dev
+Architecture: any
+Depends: libdispatch (= ${binary:Version}), ${misc:Depends}
+Description: Development files for libdispatch. The libdispatch Project, (a.k.a. Grand Central Dispatch), for concurrency on multicore hardware.

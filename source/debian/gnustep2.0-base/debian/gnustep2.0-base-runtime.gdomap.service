@@ -1,0 +1,20 @@
+[Unit]
+Documentation=man:gdomap(8)
+Description=GNUstep Distributed Object Mapper
+After=remote-fs.target
+
+[Service]
+Type=forking
+Restart=no
+ProtectHome=yes
+TimeoutSec=5min
+IgnoreSIGPIPE=no
+KillMode=process
+GuessMainPID=no
+RemainAfterExit=yes
+SuccessExitStatus=5 6
+ExecStart=/usr/libexec/gdomap-helper start
+ExecStop=/usr/libexec/gdomap-helper stop
+
+[Install]
+WantedBy=multi-user.target

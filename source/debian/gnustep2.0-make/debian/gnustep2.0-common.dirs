@@ -1,0 +1,11 @@
+# Initialization of the GNUstep filesystem
+usr/share/GNUstep/Colors
+usr/share/GNUstep/DocTemplates
+usr/share/GNUstep/Fonts
+usr/share/GNUstep/KeyBindings
+usr/share/GNUstep/Libraries
+usr/share/GNUstep/Makefiles
+usr/share/GNUstep/PostScript
+usr/share/xml/gnustep
+usr/share/pixmaps/GNUstep
+usr/share/sounds/GNUstep

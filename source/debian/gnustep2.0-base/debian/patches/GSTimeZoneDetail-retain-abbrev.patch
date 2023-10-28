@@ -1,0 +1,37 @@
+Description: Retain an ivar to avoid crash in some NSTimeZone methods.
+Author: Yavor Doganov <yavor@gnu.org>
+Forwarded: https://savannah.gnu.org/bugs/?64434
+Last-Update: 2023-07-27
+---
+
+--- gnustep-base.orig/Source/NSTimeZone.m
++++ gnustep-base/Source/NSTimeZone.m
+@@ -806,6 +806,7 @@
+ 
+ - (void) dealloc
+ {
++  RELEASE(abbrev);
+   RELEASE(timeZone);
+   DEALLOC
+ }
+@@ -824,7 +825,7 @@
+ 		withDST: (BOOL)isDST
+ {
+   timeZone = RETAIN(aZone);
+-  abbrev = anAbbrev;		// NB. Depend on this being retained in aZone
++  abbrev = RETAIN(anAbbrev);
+   offset = anOffset;
+   is_dst = isDST;
+   return self;
+@@ -1854,7 +1855,10 @@
+ 		  path = [zonedir stringByAppendingPathComponent: name];
+ 		  if ([mgr fileExistsAtPath: path isDirectory: &isDir]
+                     && isDir == NO
+-                    && [[path pathExtension] isEqual: @"tab"] == NO)
++                    && [[path pathExtension] isEqual: @"tab"] == NO
++                    && [[path pathExtension] isEqual: @"zi"] == NO
++                    && [[path pathExtension] isEqual: @"list"] == NO
++                    && [[path lastPathComponent] isEqual: @"leapseconds"] == NO)
+ 		    {
+ 		      zone = [zoneDictionary objectForKey: name];
+ 		      if (zone == nil)
