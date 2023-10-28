@@ -1,0 +1,15 @@
+{
+    "name": "libobjc2",
+    "tag": "v2.1",
+    "git": "https://github.com/gnustep/libobjc2.git",
+    "dist": [
+        {
+            "friendly_name": "Debian GNU/Linux",
+            "name": "debian",
+            "platform": "linux-gnu",
+            "packaging": "dpkg",
+            "config_path": "debian/",
+            "patches": []
+        }
+    ]
+}
