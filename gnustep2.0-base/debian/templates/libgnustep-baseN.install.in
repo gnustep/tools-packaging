@@ -1,2 +1,0 @@
-# Install shared lib
-@GS_LIBS@/libgnustep-base.so.*
