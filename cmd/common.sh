@@ -3,7 +3,7 @@
 
 
 SOURCE_DIR="${SCRIPT_DIR}/../source"
-SOURCE_DESC_DIR="$SOURCE_DIR/desc"
+SOURCE_DESC_DIR="$SOURCE_DIR/description"
 SOURCE_DEB_DIR="$SOURCE_DIR/debian"
 
 # Build only this package
