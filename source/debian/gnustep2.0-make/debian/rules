@@ -78,6 +78,6 @@ ifeq (,$(findstring nodoc,$(DEB_BUILD_OPTIONS)))
 	    GNUSTEP_INSTALLATION_DOMAIN=SYSTEM \
 	    PATH="$$PATH:$(CURDIR)/Documentation/temp-installation/bin" \
 	    DESTDIR=""
-	cp debian/gnustep-make-doc.install.in debian/gnustep-make-doc.install
-	cp debian/gnustep-make-doc.links.in debian/gnustep-make-doc.links
+	cp debian/gnustep2.0-make-doc.install.in debian/gnustep2.0-make-doc.install
+	cp debian/gnustep2.0-make-doc.links.in debian/gnustep2.0-make-doc.links
 endif
