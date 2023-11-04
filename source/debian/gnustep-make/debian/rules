@@ -41,7 +41,7 @@ override_dh_auto_configure:
 		--prefix=/usr \
   		--with-runtime-abi=gnustep-2.0 \
   		--with-library-combo=ng-gnu-gnu \
-  	LDFLAGS="-fuse-ld=lld -L/usr/lib/$(DEB_HOST_MULTIARCH)" SHELLPROG=/bin/bash GNUMAKE=make \
+  	CC="clang" CXX="clang++" CPP="clang -E" LDFLAGS="-fuse-ld=lld -L/usr/lib/$(DEB_HOST_MULTIARCH)" SHELLPROG=/bin/bash GNUMAKE=make \
 
 
 # We don't have a gnustep-make installation to use, we create a temporary one
