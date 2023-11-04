@@ -24,8 +24,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends pbuilder binutils apt-utils tar jq git
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils tar jq git
 
       - name: Execute Build Script
         run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }}
