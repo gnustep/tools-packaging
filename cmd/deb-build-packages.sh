@@ -75,6 +75,14 @@ function pbuilderInit {
             echo "ERROR: Failed to create the base tarball!"
             return 1
         fi
+
+        # Add pinning of local repo
+        pbuilder login ${PBUILDER_DEFAULT_ARGS} --save-after-login <<EOF
+echo "Package: *" > /etc/apt/preferences.d/local-pin.pref
+echo "Pin: origin \"\"" >> /etc/apt/preferences.d/local-pin.pref
+echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/local-pin.pref
+EOF
+
     fi
 
     return 0;
