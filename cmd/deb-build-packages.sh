@@ -196,8 +196,16 @@ function buildSourcePackage {
 
     cd ${SOURCE_TEMP_DEB_DIR}/${NAME}
 
-    # Use pdebuild to build the package with our custom pbuilder configuration
-    pdebuild --debbuildopts "-uc -us" -- ${PBUILDER_DEFAULT_ARGS}
+    # Configure the package and generate a .dsc file
++    dpkg-source --build .
+
+    # Use pbuilder to build the package with our custom pbuilder configuration
+    #
+    # Using pdebuild does not work as the pdebuild script checks for missing
+    # dependencies with dpkg-checkbuilddeps on the HOST system!
+    # This means we need to install the dependencies on the host system aswell
+    # which is rediculous.
+    pbuilder build  ${PBUILDER_DEFAULT_ARGS} ../${NAME}*.dsc
     if test $? -ne 0; then
         echo "ERROR: Failed to build package ${NAME}!"
         return 1
