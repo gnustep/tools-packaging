@@ -6,6 +6,9 @@ SOURCE_DIR="${SCRIPT_DIR}/../source"
 SOURCE_DESC_DIR="$SOURCE_DIR/description"
 SOURCE_DEB_DIR="$SOURCE_DIR/debian"
 
+SOURCE_TEMP_DEB_DIR=$SOURCE_DIR/../build/debian
+SOURCE_TEMP_DIR=$SOURCE_DIR/../build
+
 # Build only this package
 ONLY_PKG=""
 VERBOSE=1
