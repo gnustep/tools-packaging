@@ -80,12 +80,46 @@ function pbuilderInit {
     return 0;
 }
 
+# ARGUMENTS: PACKAGE_NAME
+function copyDebianDescriptionIntoTempDirectory {
+    local pkgName=$1
+    local sourceDir=${SOURCE_DEB_DIR}/${pkgName}
+    local destDir=${SOURCE_TEMP_DEB_DIR}/${pkgName}
+
+    if test ! -d ${SOURCE_TEMP_DEB_DIR} ; then
+        echo "INFO: Creating temporary directory ${SOURCE_TEMP_DEB_DIR}..."
+        mkdir -p ${SOURCE_TEMP_DEB_DIR}
+        if test $? -ne 0; then
+            echo "ERROR: Failed to create temporary directory ${SOURCE_TEMP_DEB_DIR}!"
+            return 1
+        fi
+    fi
+
+    if test ! -d ${sourceDir}; then
+        echo "ERROR: Source directory ${sourceDir} does not exist!"
+        return 1
+    fi
+
+    # Copy the debian directory into the temp directory if not present
+    if test ! -d ${destDir}; then
+        echo "INFO: Copying debian directory from ${sourceDir} to ${destDir}..."
+        cp -r ${sourceDir} ${destDir}
+        if test $? -ne 0; then
+            echo "ERROR: Failed to copy debian directory from ${sourceDir} to ${destDir}!"
+            return 1
+        fi
+    fi
+
+    return 0;
+}
+
 # pdebuild requires PKGNAME_VERSION.orig.tar.gz tarballs
+# This function MUST be called after copyDebianDescriptionIntoTempDirectory
 # ARGUMENTS: PACKAGE_NAME
 function makeSourceTarball {
     local pkgName=$1
-    local debDir=${SOURCE_DEB_DIR}/${pkgName}/debian
-    local sourceDir=${SOURCE_DIR}/${pkgName}
+    local debDir=${SOURCE_TEMP_DEB_DIR}/${pkgName}/debian
+    local sourceDir=${SOURCE_TEMP_DIR}/${pkgName}
 
     if test ! -d ${sourceDir}; then
         echo "ERROR: Source directory ${sourceDir} does not exist!"
@@ -106,7 +140,7 @@ function makeSourceTarball {
 
     echo "INFO: Creating source tarball ${tarballName}..."
     # Create the source tarball without version control files
-    tar -czf ${SOURCE_DEB_DIR}/${tarballName} --exclude-vcs -C ${sourceDir} .
+    tar -czf ${SOURCE_TEMP_DEB_DIR}/${tarballName} --exclude-vcs -C ${sourceDir} .
     if test $? -ne 0; then
         echo "ERROR: Failed to create source tarball ${tarballName}!"
         return 1
@@ -119,7 +153,11 @@ function buildSourcePackage {
     local DESTINATION=$2
     local NAME=$3
 
-    echo "INFO: Preparing package ${NAME} found at location ${SOURCE_DEB_DIR}/${NAME}"
+    echo "INFO: Building source package ${NAME}..."
+    # Copy the debian directory into the temp directory if not present
+    copyDebianDescriptionIntoTempDirectory ${NAME}
+
+    echo "INFO: Preparing package ${NAME} found at location ${SOURCE_TEMP_DEB_DIR}/${NAME}"
 
     # Check if the package location exists
     if test ! -d ${PACKAGE_LOCATION}; then
@@ -132,19 +170,23 @@ function buildSourcePackage {
         return 1
     fi
 
-    # Check if the source tarball exists
-    if test ! -f ${SOURCE_DEB_DIR}/${NAME}*.orig.tar.gz; then
-        echo "INFO: Source tarball ${SOURCE_DEB_DIR}/${NAME}*.orig.tar.gz does not exist. Creating..."
+    # Check if the source tarball exists in temp dir
+    if test ! -f ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz; then
+        echo "INFO: Source tarball ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz does not exist. Creating..."
         if ! makeSourceTarball ${NAME}; then
-            echo "ERROR: Failed to create source tarball ${SOURCE_DEB_DIR}/${NAME}*.orig.tar.gz!"
+            echo "ERROR: Failed to create source tarball ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz!"
             return 1
         fi
     fi
 
+    # Extract the source tarball into the temporary directory
+    echo "INFO: Extracting source tarball ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz into ${SOURCE_TEMP_DEB_DIR}/${NAME}..."
+    tar -xzf ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz -C "${SOURCE_TEMP_DEB_DIR}/${NAME}"
+
     # Build the package
     echo "INFO: Building package ${NAME} from source with pdebuild..."
 
-    cd ${SOURCE_DEB_DIR}/${NAME}
+    cd ${SOURCE_TEMP_DEB_DIR}/${NAME}
 
     # Use pdebuild to build the package with our custom pbuilder configuration
     pdebuild --debbuildopts "-uc -us" -- ${PBUILDER_DEFAULT_ARGS}
@@ -180,7 +222,7 @@ function findSourcePackage {
             echo "INFO: Found source package ${PACKAGE_NAME}!"
             echo "INFO: Building source package ${phase}..."
 
-            if ! buildSourcePackage "${SOURCE_DIR}/${phase}" "${PBUILDER_RESULT}" "${phase}"; then
+            if ! buildSourcePackage "${SOURCE_TEMP_DIR}/${phase}" "${PBUILDER_RESULT}" "${phase}"; then
                 echo "ERROR: Failed to build source package ${phase}!"
                 return 1
             fi
