@@ -23,8 +23,6 @@ jobs:
             image_suffix: bookworm-arm64
           - architecture: amd64
             image_suffix: bookworm-amd64
-    container:
-      image: debian:bookworm
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -33,6 +31,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils tar jq git
+
+      - name: Install Debian Archive Keyring
+        run: |
+          sudo apt-get install -y --no-install-recommends debian-archive-keyring gpg
+
+      - name: Add the keyring to APT's trusted set
+        run: |
+          sudo cp /usr/share/keyrings/debian-archive-keyring.gpg /etc/apt/trusted.gpg.d/
+
 
       - name: Execute Build Script
         run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }}
