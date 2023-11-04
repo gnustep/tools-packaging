@@ -1,4 +1,4 @@
-name: Build Toolchain Workflow
+name: Build Toolchain Workflow (Bookworm)
 
 on:
   push:

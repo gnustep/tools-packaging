@@ -13,14 +13,15 @@ SOURCE_TEMP_DIR=$SOURCE_DIR/../build
 ONLY_PKG=""
 VERBOSE=1
 
+# Debian release version. By default the unstable version (sid) is used.
+DEBIAN_RELEASE="bookworm"
+ARCHITECTURE=arm64
+MIRROR="http://deb.debian.org/debian"
+
 # Debian building configuration
 PBUILDER_DIR="${SCRIPT_DIR}/../pbuilder"
 PBUILDER_CONFIG="${PBUILDER_DIR}/pbuilderrc"
 PBUILDER_BASE_TGZ="${PBUILDER_DIR}/base-${DEBIAN_RELEASE}-${ARCHITECTURE}.tgz"
 PBUILDER_RESULT="/var/cache/pbuilder/result"
-PBUILDER_DEFAULT_ARGS="--basetgz ${PBUILDER_BASE_TGZ} --distribution ${DEBIAN_RELEASE} --architecture ${ARCHITECTURE} --configfile ${PBUILDER_CONFIG} --hookdir ${PBUILDER_DIR}/hooks"
+PBUILDER_DEFAULT_ARGS="--basetgz ${PBUILDER_BASE_TGZ} --mirror ${MIRROR} --distribution ${DEBIAN_RELEASE} --architecture ${ARCHITECTURE} --configfile ${PBUILDER_CONFIG} --hookdir ${PBUILDER_DIR}/hooks"
 PBUILDER_SKIP_UPDATE=0
-
-# Debian release version. By default the unstable version (sid) is used.
-DEBIAN_RELEASE="bookworm"
-ARCHITECTURE=arm64
