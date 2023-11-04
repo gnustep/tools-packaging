@@ -1,0 +1,10 @@
+Document: gnustep-userfaq
+Title: GNUstep Frequently Asked Questions for Users
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-userfaq/index.html
+Files: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-userfaq/*.html
+
+Format: PDF
+Files: /usr/share/doc/gnustep-make-doc/GNUstep/gnustep-userfaq.pdf

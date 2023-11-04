@@ -1,0 +1,17 @@
+Description: Fix a warning with groff/1.23.0.
+Author: Yavor Doganov <yavor@gnu.org>
+Forwarded: https://savannah.gnu.org/bugs/index.php?64492
+Last-Update: 2023-07-30
+---
+
+--- gnustep-base.orig/Tools/HTMLLinker.1
++++ gnustep-base/Tools/HTMLLinker.1
+@@ -47,7 +47,7 @@
+ Print additional information about unresolved links.
+ .TP
+ .BI -LinksMarker " [xxx]"
+-Only fix links with attribute \fBrel\f\=\fIxxx\fR
++Only fix links with attribute \fBrel\fR=\fIxxx\fR
+ .TP
+ .B -FixupAllLinks YES
+ Attempt to fix all links (not only those that are marked with

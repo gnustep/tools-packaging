@@ -1,0 +1,4 @@
+# Use the system's timezones/certificates
+usr/share/zoneinfo/			@GS_BASE_RESOURCES_DEBIAN@/NSTimeZones/zones
+etc/timezone				@GS_BASE_RESOURCES_DEBIAN@/NSTimeZones/localtime
+etc/ssl/certs/ca-certificates.crt	@GS_BASE_RESOURCES_DEBIAN@/GSTLS/ca-certificates.crt

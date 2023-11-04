@@ -1,0 +1,26 @@
+Description: Fix FTBFS on 32-bit architectures.
+ Omit tests relying on 64bit time_t.
+Author: Yavor Doganov <yavor@gnu.org>
+Debian-Bug: https://bugs.debian.org/1028020
+Forwarded: https://savannah.gnu.org/bugs/?64434
+Last-Update: 2023-02-21
+---
+
+--- gnustep-base.orig/Tests/base/NSTimeZone/localtime.m
++++ gnustep-base/Tests/base/NSTimeZone/localtime.m
+@@ -41,6 +41,7 @@
+ 	"post-1996 DST time offset vs UTC found for user-supplied %s",
+ 	message);
+ 
++#if __LP64__
+    /* After 32bit value seconds-since-1970 using TZDB v2+ file */
+    if (beyond2038) {
+      date = [NSDate dateWithString: @"2039-01-16 23:59:59 -0200"];
+@@ -48,6 +49,7 @@
+ 	  "post-2038 standard time offset vs UTC found for user-supplied %s",
+ 	  message);
+    }
++#endif
+ 
+   return;
+ }

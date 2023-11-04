@@ -1,0 +1,13 @@
+Document: gnustep-base-reference
+Title: GNUstep Base Library API Reference
+Author: Richard Frith-Macdonald
+Abstract: The GNUstep Base library is a free software package
+ implementing the API of the OpenStep Foundation Kit (tm), including
+ later additions.  This documentation package describes the core of
+ the Base library, for documentation on additional classes, see the
+ BaseAdditions documentation package.
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-base-doc/Base/Reference/index.html
+Files: /usr/share/doc/gnustep-base-doc/Base/Reference/*.html

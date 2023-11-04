@@ -1,0 +1,11 @@
+# Comptibilty symlinks. In sync with gnustep-common.maintscript
+usr/share/GNUstep/Colors	usr/lib/GNUstep/Colors
+usr/share/GNUstep/DocTemplates	usr/lib/GNUstep/DocTemplates
+usr/share/GNUstep/Fonts		usr/lib/GNUstep/Fonts
+usr/share/GNUstep/KeyBindings	usr/lib/GNUstep/KeyBindings
+usr/share/GNUstep/Libraries	usr/lib/GNUstep/Libraries
+usr/share/GNUstep/Makefiles	usr/lib/GNUstep/Makefiles
+usr/share/GNUstep/PostScript	usr/lib/GNUstep/PostScript
+usr/share/xml/gnustep		usr/lib/GNUstep/DTDs
+usr/share/pixmaps/GNUstep	usr/lib/GNUstep/Images
+usr/share/sounds/GNUstep	usr/lib/GNUstep/Sounds

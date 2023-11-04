@@ -1,0 +1,13 @@
+# Install headers
+@GS_HEADERS@/Foundation/*
+@GS_HEADERS@/GNUstepBase/*
+#@GS_HEADERS@/gnustep/unicode/*
+
+# Install development symlink
+@GS_LIBS@/libgnustep-base.so
+
+# Instal static/dev lib
+@GS_LIBS@/libgnustep-base.a
+
+# Install additional makefiles
+@GS_MAKEFILES@/Additional/*
