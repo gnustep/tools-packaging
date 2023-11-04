@@ -1,0 +1,44 @@
+name: Build Toolchain Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'source/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'source/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture: [arm64, amd64]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends pbuilder binutils apt-utils tar jq git
+
+      - name: Execute Build Script
+        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }}
+        env:
+          DEBIAN_FRONTEND: noninteractive
+
+      - name: List Resulting Packages
+        run: |
+          cd /var/cache/pbuilder/result
+          find . -type f \( -name "*.deb" -o -name "*.changes" -o -name "*.dsc" \) -exec ls -l {} \;
+
+      - name: Archive Packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages-${{ matrix.architecture }}
+          path: /var/cache/pbuilder/result/*.{deb,changes,dsc}
