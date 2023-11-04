@@ -5,6 +5,6 @@
 BUILD_PHASES_ARRAY=(
     "libobjc2"
     "libdispatch"
-    "gnustep2.0-make"
-    "gnustep2.0-base"
+    "gnustep-make"
+    "gnustep-base"
 )
