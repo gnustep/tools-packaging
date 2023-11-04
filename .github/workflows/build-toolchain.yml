@@ -18,11 +18,6 @@ jobs:
     strategy:
       matrix:
         architecture: [arm64, amd64]
-        include:
-          - architecture: arm64
-            image_suffix: bookworm-arm64
-          - architecture: amd64
-            image_suffix: bookworm-amd64
     container:
       image: debian:bookworm
     steps:
