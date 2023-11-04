@@ -18,19 +18,32 @@ jobs:
     strategy:
       matrix:
         architecture: [arm64, amd64]
-    container:
-      image: debian:bookworm
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends pbuilder binutils apt-utils tar jq git
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git
 
-      - name: Execute Build Script
-        run: ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }}
+      - name: Build libobjc2
+        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -o libobjc2
+        env:
+          DEBIAN_FRONTEND: noninteractive
+
+      - name: Build libdispatch
+        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg libdispatch --skip-update
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          
+      - name: Build gnustep-make
+        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg gnustep-make --skip-update
+        env:
+          DEBIAN_FRONTEND: noninteractive
+      
+      - name: Build gnustep-base
+        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg gnustep-base --skip-update
         env:
           DEBIAN_FRONTEND: noninteractive
 
