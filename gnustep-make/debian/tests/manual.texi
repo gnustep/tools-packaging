@@ -1,0 +1,6 @@
+\input texinfo
+
+@node Top
+@top Test Manual
+
+@bye

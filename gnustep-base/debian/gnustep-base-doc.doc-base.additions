@@ -1,0 +1,13 @@
+Document: gnustep-base-additions
+Title: GNUstep Base Additions API Reference
+Author: Richard Frith-Macdonald
+Abstract: The GNUstep base additions package comes with the
+ GNUstep base package, and provides additional non-standard classes
+ and additio nal features for standard classes. It is also intended to
+ be built standalone for use on systems where the GNUstep base is not
+ installed, but where an alternative Foundation is available.
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-base-doc/BaseAdditions/Reference/index.html
+Files: /usr/share/doc/gnustep-base-doc/BaseAdditions/Reference/*.html
