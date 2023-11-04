@@ -1,0 +1,25 @@
+Index: libdispatch/cmake/modules/DispatchCompilerWarnings.cmake
+===================================================================
+--- libdispatch.orig/cmake/modules/DispatchCompilerWarnings.cmake
++++ libdispatch/cmake/modules/DispatchCompilerWarnings.cmake
+@@ -2,7 +2,6 @@
+ if("${CMAKE_C_SIMULATE_ID}" STREQUAL "MSVC")
+   # TODO: someone needs to provide the msvc equivalent warning flags
+ else()
+-  add_compile_options($<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:-Werror>)
+   add_compile_options($<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:-Wall>)
+   add_compile_options($<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:-Wextra>)
+ 
+Index: libdispatch/src/CMakeLists.txt
+===================================================================
+--- libdispatch.orig/src/CMakeLists.txt
++++ libdispatch/src/CMakeLists.txt
+@@ -127,7 +127,7 @@ endif()
+ # FIXME(compnerd) add check for -fblocks?
+ target_compile_options(dispatch PRIVATE -fblocks)
+ 
+-check_c_compiler_flag("-momit-leaf-frame-pointer -Werror -Wall -O3" C_SUPPORTS_OMIT_LEAF_FRAME_POINTER)
++check_c_compiler_flag("-momit-leaf-frame-pointer -Wall -O3" C_SUPPORTS_OMIT_LEAF_FRAME_POINTER)
+ if (C_SUPPORTS_OMIT_LEAF_FRAME_POINTER)
+   target_compile_options(dispatch PRIVATE -momit-leaf-frame-pointer)
+ endif()
