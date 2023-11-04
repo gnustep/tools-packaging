@@ -47,6 +47,12 @@ function checkRTDependenciesNoFail {
         echo "ERROR: Install it with 'sudo apt install apt-utils'"
         exit 1
     fi
+    # Check if we have dpkg-source installed
+    if ! command -v dpkg-source &> /dev/null; then
+        echo "ERROR: dpkg-dev is not installed!"
+        echo "ERROR: Install it with 'sudo apt install dpkg-dev'"
+        exit 1
+    fi
     # Check if tar is installed
     if ! command -v tar &> /dev/null; then
         echo "ERROR: tar is not installed!"
