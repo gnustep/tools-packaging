@@ -113,3 +113,4 @@ stamp-h1
 
 # pbuilder
 pbuilder/*.tgz
+build/
