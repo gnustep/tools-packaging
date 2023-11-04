@@ -9,7 +9,7 @@ function downloadProjectWithName {
 	# TODO: Escape projectName before checking
 	local conf="${SOURCE_DESC_DIR}/${projectName}.json"
 
-	if test -d ${SOURCE_DIR}/${projectName}; then
+	if test -d ${SOURCE_TEMP_DIR}/${projectName}; then
 		echo "INFO: Project '${projectName}' already exists."
 		return 0
 	fi
@@ -28,7 +28,7 @@ function downloadProjectWithName {
 	local git=$(cat ${conf} | jq -r .git)
 	local branch=$(cat ${conf} | jq -r .tag)
 
-	git clone --recurse-submodules --depth 1 --branch ${branch} ${git} ${SOURCE_DIR}/${projectName}
+	git clone --recurse-submodules --depth 1 --branch ${branch} ${git} ${SOURCE_TEMP_DIR}/${projectName}
 	if test $? -ne 0; then
 		echo "ERROR: Failed to clone git repository '${git}'"
 		return 1
