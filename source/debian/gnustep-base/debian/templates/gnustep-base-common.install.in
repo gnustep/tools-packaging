@@ -1,0 +1,8 @@
+# Install arch indep
+@GS_BASE_RESOURCES_UPSTREAM@/*.lproj		@GS_BASE_RESOURCES_DEBIAN@/
+@GS_BASE_RESOURCES_UPSTREAM@/*.plist		@GS_BASE_RESOURCES_DEBIAN@/
+@GS_BASE_RESOURCES_UPSTREAM@/Languages/*	@GS_BASE_RESOURCES_DEBIAN@/Languages/
+@GS_BASE_RESOURCES_UPSTREAM@/NSTimeZones/[!z]*	@GS_BASE_RESOURCES_DEBIAN@/NSTimeZones/
+
+# Use gnustep-base-common.xmlcatalogs to install DTDs
+#@GS_DTDs_UPSTREAM@/*				@GS_DTDs_DEBIAN@/

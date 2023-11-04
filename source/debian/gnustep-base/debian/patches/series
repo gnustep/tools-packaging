@@ -1,0 +1,12 @@
+pkg-config-macro.patch
+fix-spelling-error.patch
+manpage-fixes.patch
+fix-tests-timings.patch
+autogsdoc-reproducibility.patch
+plutil-manpage.patch
+nstimezone-32bit-time_t.patch
+TestHelper-category-interface.patch
+tzdb.h-include.patch
+GSTimeZoneDetail-retain-abbrev.patch
+HTMLLinker-troff-warning.patch
+lib-path-patch.patch

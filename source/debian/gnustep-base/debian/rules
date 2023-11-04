@@ -1,0 +1,206 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE = 1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--no-undefined
+
+# config.mk is provided by gnustep-make package
+include /usr/share/GNUstep/debian/config.mk
+
+# Install in debian/tmp
+export DESTDIR=$(CURDIR)/debian/tmp
+
+##### VERSION NUMBERS #################################
+
+# Objective-C version :
+v_objc := 2.1
+
+# GNUstep Make version :
+v_make	:= 2.9.1-1
+
+# GNUstep Base version :
+v_base	:= $(shell . ./Version; echo $$VERSION)
+
+# GNUstep Base SONAME version :
+sov_base := $(shell . ./Version; echo $$MAJOR_VERSION.$$MINOR_VERSION)
+
+#### PACKAGES NAMES ###################################
+p_com	= gnustep-base-common
+p_run	= gnustep-base-runtime
+p_lib	= libgnustep-base$(sov_base)
+p_dev	= libgnustep-base-dev
+p_doc	= gnustep-base-doc
+
+### DIRS ##############################################
+GS_DTDs_DEBIAN = usr/share/xml/gnustep
+GS_BASE_RESOURCES_UPSTREAM = $(GNUSTEP_SYSTEM_LIBRARY)/Libraries/gnustep-base/Versions/$(sov_base)/Resources
+GS_BASE_RESOURCES_DEBIAN = usr/share/GNUstep/Libraries/gnustep-base/Versions/$(sov_base)/Resources
+
+#####################################################"#
+
+%:
+	dh $@
+
+# Ensure that debian/control is always up-to-date.
+override_dh_testdir:
+	m4 \
+	    -DV_OBJC='$(v_objc)' \
+	    -DV_MAKE='$(v_make)' \
+	    -DSOV_BASE='$(sov_base)' \
+	    debian/templates/control.m4 > debian/control
+	dh_testdir
+
+override_dh_auto_configure:
+# generate libgnustep-baseN lintian overrides file
+	m4 \
+	    -DSOV_BASE='$(sov_base)' \
+	    debian/templates/libgnustep-baseN.lintian-overrides.m4 > debian/$(p_lib).lintian-overrides
+
+# generate maintainer scripts
+	b=$(p_run); \
+	for ext in preinst postinst prerm postrm; do \
+	    if [ -f debian/templates/$$b.$$ext.in ]; then \
+		sed -e 's,@GDOMAP@,$(GNUSTEP_SYSTEM_TOOLS)/gdomap,g' \
+		    debian/templates/$$b.$$ext.in > debian/$$b.$$ext; \
+	    fi; \
+	done
+
+# generate gnustep-base-runtime.links file
+	sed -e 's,@GS_MANPAGES@,$(GNUSTEP_SYSTEM_DOC_MAN),g' \
+	    debian/templates/$(p_run).links.in > debian/$(p_run).links;
+
+# generate gnustep-base-common.install file
+	sed -e 's,@GS_BASE_RESOURCES_UPSTREAM@,$(GS_BASE_RESOURCES_UPSTREAM),g' \
+	    -e 's,@GS_BASE_RESOURCES_DEBIAN@,$(GS_BASE_RESOURCES_DEBIAN),g' \
+	    debian/templates/$(p_com).install.in > debian/$(p_com).install
+
+# generate gnustep-base-common.links file
+	sed -e 's,@GS_BASE_RESOURCES_DEBIAN@,$(GS_BASE_RESOURCES_DEBIAN),g' \
+	    debian/templates/$(p_com).links.in > debian/$(p_com).links
+
+# generate gnustep-base-common.xmlcatalogs file
+	sed -e 's,@GS_DTDs_DEBIAN@,/$(GS_DTDs_DEBIAN),g' \
+	    debian/templates/$(p_com).xmlcatalogs.in > debian/$(p_com).xmlcatalogs
+
+# generate libgnustep-baseN.install file
+	sed -e 's,@GS_LIBS@,$(GNUSTEP_SYSTEM_LIBRARIES),g' \
+	    debian/templates/libgnustep-baseN.install.in > debian/$(p_lib).install
+
+# generate libgnustep-base-dev.install file
+	sed -e 's,@GS_HEADERS@,$(GNUSTEP_SYSTEM_HEADERS),g' \
+	    -e 's,@GS_LIBS@,$(GNUSTEP_SYSTEM_LIBRARIES),g' \
+	    -e 's,@GS_MAKEFILES@,$(GNUSTEP_MAKEFILES),g' \
+	    debian/templates/$(p_dev).install.in > debian/$(p_dev).install
+
+# When "nodoc" is present in DEB_BUILD_OPTIONS, the gnustep-make-doc
+# package is created nearly empty, as required by Policy.  If it is
+# also present in DEB_BUILD_PROFILES, the package is not built at all.
+ifdef docs
+	cp debian/templates/$(p_doc).install.in debian/$(p_doc).install
+	cp debian/templates/$(p_doc).links.in debian/$(p_doc).links
+endif
+
+# Configure
+	dh_auto_configure -- \
+	    CURRENT_GNUSTEP_MAKEFILES=$(GNUSTEP_MAKEFILES) \
+	    --with-installation-domain=SYSTEM \
+	    LDFLAGS="-fuse-ld=lld -L/usr/lib/${DEB_HOST_MULTIARCH}" \
+
+override_dh_auto_build-arch:
+# build shared libs
+	dh_auto_build -- \
+	    $(verbose) \
+	    $(optim) \
+	    doc=no \
+	    $(shell dpkg-buildflags --export=cmdline)
+
+# build dev/static lib
+	dh_auto_build -- \
+	    -C Source \
+	    $(verbose) \
+	    $(optim) \
+	    doc=no \
+	    shared=no
+
+override_dh_auto_build-indep:
+# build shared libs
+	dh_auto_build -- \
+	    $(verbose) \
+	    $(optim) \
+	    doc=no
+
+ifdef docs
+# build main doc. Make sure autogsdoc can find the libraries.
+	LD_LIBRARY_PATH=$(CURDIR)/Source/obj:$$LD_LIBRARY_PATH \
+	dh_auto_build -- \
+	    -C Documentation \
+	    $(verbose) \
+	    $(optim) \
+	    $(docs)
+endif
+
+override_dh_auto_test:
+#	dh_auto_test -- \
+#    $(verbose)  || (cat Tests/tests.log; exit 1)
+
+override_dh_dwz:
+	dh_dwz || true
+
+override_dh_auto_install-arch:
+# install shared version of libraries
+	dh_auto_install -- \
+	    doc=no
+
+# install dev/static lib
+	dh_auto_install -- \
+	    -C Source \
+	    doc=no \
+	    shared=no
+
+override_dh_auto_install-indep:
+# install shared version of libraries
+	dh_auto_install -- \
+	    doc=no
+
+ifdef docs
+# install doc
+	dh_auto_install -- \
+	    -C Documentation \
+	    $(docs)
+# Delete duplicate files already shipped at /usr/share/doc/.
+	$(RM) -r \
+	  debian/tmp$(GNUSTEP_SYSTEM_DOC)/Developer/Base/ReleaseNotes/1.*
+endif
+# Delete README which triggers lintian I: gnustep-base-common:
+# package-contains-documentation-outside-usr-share-doc.  These
+# instructions are unnecessary as the Debian package uses tzdata.
+	$(RM) debian/tmp/usr/lib/GNUstep/Libraries/gnustep-base/Versions/$(sov_base)/Resources/NSTimeZones/README
+
+override_dh_auto_clean-indep:
+	dh_auto_clean -- \
+	    doc=yes
+
+
+override_dh_installcatalogs-indep:
+# Bug #637093
+	dh_installxmlcatalogs -p$(p_com) -n
+	dh_installcatalogs --remaining-packages
+
+# Install the gdomap init script
+override_dh_installinit:
+	dh_installinit -p$(p_run) --name=gdomap --no-enable --no-start
+
+override_dh_installsystemd:
+	dh_installsystemd -p$(p_run) --name=gdomap --no-enable --no-start
+
+# Install examples
+override_dh_installexamples:
+	dh_installexamples -p$(p_doc) -X.cvsignore -X.gdbinit -X.arch-ids
+	dh_installexamples --remaining-packages
+
+override_dh_shlibdeps:
+	dh_shlibdeps
+# Recalculate dependencies of the shared library to ensure that
+# gnustep-base-runtime is added as additional dependency.
+	dh_makeshlibs -p$(p_lib) \
+	  -V '$(p_lib) (>= $(v_base)), $(p_run) (>= $(v_base))'

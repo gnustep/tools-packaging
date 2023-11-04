@@ -1,0 +1,13 @@
+Document: gnustep-base-programming-manual
+Title: Objective-C Language and GNUstep Base Library Programming Manual
+Author: Francis Botto, Richard Frith-Macdonald, Nicola Pero, Adrian Robert
+Abstract: This manual is an introduction to Objective-C programming and
+ the GNUstep Development environment.
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-base-doc/Base/ProgrammingManual/gs-base/index.html
+Files: /usr/share/doc/gnustep-base-doc/Base/ProgrammingManual/gs-base/*.html
+
+Format: PDF
+Files: /usr/share/doc/gnustep-base-doc/Base/ProgrammingManual/gs-base.pdf

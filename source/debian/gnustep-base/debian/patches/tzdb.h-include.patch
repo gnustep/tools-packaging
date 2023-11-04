@@ -1,0 +1,32 @@
+Description: Include tzdb.h earlier so that POSIX_TZONES is correct.
+Author: Yavor Doganov <yavor@gnu.org>
+Forwarded: https://savannah.gnu.org/bugs/?64434
+Last-Update: 2023-07-27
+---
+
+--- gnustep-base.orig/Source/NSTimeZone.m
++++ gnustep-base/Source/NSTimeZone.m
+@@ -153,6 +153,11 @@
+ /* Many systems have this file */
+ #define SYSTEM_TIME_FILE @"/etc/localtime"
+ 
++/* Include public domain code (modified for use here) to parse standard
++ * posix time zone files.
++ */
++#include "tzdb.h"
++
+ /* If TZDIR told us where the zoneinfo files are, don't append anything else */
+ #ifdef TZDIR
+ #define POSIX_TZONES     @""
+@@ -163,11 +168,6 @@
+ #define BUFFER_SIZE 512
+ #define WEEK_MILLISECONDS (7.0*24.0*60.0*60.0*1000.0)
+ 
+-/* Include public domain code (modified for use here) to parse standard
+- * posix time zone files.
+- */
+-#include "tzdb.h"
+-
+ #if GS_USE_ICU == 1
+ static inline int
+ _NSToICUTZDisplayStyle(NSTimeZoneNameStyle style)

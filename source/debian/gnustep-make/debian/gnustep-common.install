@@ -1,0 +1,26 @@
+# Install conf file
+etc/GNUstep/GNUstep.conf
+
+# Install arch dep tools
+usr/bin/debugapp
+usr/bin/openapp
+usr/bin/opentool
+
+# Instal arch dep makefiles
+usr/share/GNUstep/Makefiles/GNUstep.*sh
+usr/share/GNUstep/Makefiles/GNUstep-reset.*sh
+usr/share/GNUstep/Makefiles/config*.make
+usr/share/GNUstep/Makefiles/filesystem.*sh
+usr/share/GNUstep/Makefiles/clean*.*sh
+usr/share/GNUstep/Makefiles/cpu.*sh
+usr/share/GNUstep/Makefiles/fixpath.*sh
+usr/share/GNUstep/Makefiles/os.*sh
+usr/share/GNUstep/Makefiles/print_unique_pathlist.*sh
+usr/share/GNUstep/Makefiles/vendor.*sh
+
+# Manpages
+usr/share/man/man1/debugapp.1.gz
+usr/share/man/man1/openapp.1.gz
+usr/share/man/man1/opentool.1.gz
+usr/share/man/man7/GNUstep.7.gz
+usr/share/man/man7/library-combo.7.gz

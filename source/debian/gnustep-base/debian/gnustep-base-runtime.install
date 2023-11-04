@@ -1,0 +1,6 @@
+usr/bin
+# Install helper script which is used both by the init script and the
+# systemd unit.
+debian/gdomap-helper usr/libexec
+# All manpages are installed in this package.
+usr/share/man
