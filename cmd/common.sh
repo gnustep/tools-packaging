@@ -22,5 +22,5 @@ PBUILDER_DEFAULT_ARGS="--basetgz ${PBUILDER_BASE_TGZ} --distribution ${DEBIAN_RE
 PBUILDER_SKIP_UPDATE=0
 
 # Debian release version. By default the unstable version (sid) is used.
-DEBIAN_RELEASE="sid"
+DEBIAN_RELEASE="bookworm"
 ARCHITECTURE=arm64
