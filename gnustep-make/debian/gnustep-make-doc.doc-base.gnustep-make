@@ -1,0 +1,12 @@
+Document: gnustep-make-manual
+Title: GNUstep Make Manual
+Author: Nicola Pero
+Abstract: This manual describes the GNUstep build system.
+Section: Programming/Objective-C
+
+Format: HTML
+Index: /usr/share/doc/gnustep-make-doc/Manual/gnustep-make/index.html
+Files: /usr/share/doc/gnustep-make-doc/Manual/gnustep-make/*.html
+
+Format: PDF
+Files: /usr/share/doc/gnustep-make-doc/Manual/gnustep-make.pdf

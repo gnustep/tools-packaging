@@ -1,0 +1,7 @@
+# pldes manpage documents many programs
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/pl.1
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/plget.1
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/plser.1
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/plmerge.1
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/plparse.1
+@GS_MANPAGES@/man1/pldes.1	@GS_MANPAGES@/man1/pl2link.1

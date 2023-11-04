@@ -1,0 +1,157 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+dh_gnustep - moves files in the GNUstep hierarchy to FHS-compliant locations
+
+=cut
+
+use strict;
+use File::Path;
+use Debian::Debhelper::Dh_Lib;
+
+=head1 SYNOPSIS
+
+B<dh_gnustep> [S<I<debhelper options>>]
+
+=head1 DESCRIPTION
+
+dh_gnustep is a program based on debhelper that is responsible for doing
+GNUstep-specific modifications, such as moving files in the GNUstop hierarchy
+within the System domain, rooted at /usr/lib/GNUstep/System, to Filesystem
+Hierarchy Standard (FHS)-compliant locations.
+
+dh_gnustep makes the following changes:
+
+=over 4
+
+=item arch-indep directories:
+
+Moves architecture-independent directories to /usr/share/GNUstep.
+
+=item library resources:
+
+Moves library resources to /usr/share/GNUstep/Libraries.
+
+=item frameworks:
+
+Moves framework headers to /usr/include/GNUstep/Frameworks, and framework
+resources to /usr/share/GNUstep/Frameworks.
+
+=back
+
+=head1 OPTIONS
+
+dh_gnustep accepts the common debhelper options.
+
+If the DEB_GNUSTEP_NO_MOVE environment variable is set to a non-empty, non-zero
+value, then dh_gnustep exits without doing anything.
+
+=head1 BUGS
+
+Should implement B<-X> option.
+
+Should do something with resources in .app bundles.
+
+Should remove library_paths.openapp and stamp.make files.
+
+Doesn't really do the right thing with info files (should call install-info).
+
+Should do something with Java classes -- make a jar file and move from
+Library/Libraries/Java to /usr/share/java -- to comply with Java policy.
+
+=head1 CONFORMS TO
+
+Debian policy, version 3.6.2
+
+FHS, version 2.3
+
+=cut
+
+exit 0 if ($ENV{DEB_GNUSTEP_NO_MOVE});
+
+init();
+
+my $LIB_ROOT = '/usr/lib/GNUstep';
+my $SHARE_ROOT = 'usr/share/GNUstep';
+my $INCLUDE_ROOT = 'usr/include/GNUstep';
+
+my @ARCH_INDEP_DIRS = qw(Colors DocTemplates Fonts KeyBindings PostScript Libraries);
+
+foreach my $package (@{$dh{DOPACKAGES}}) {
+	my $tmp=tmpdir($package);
+
+	# move arch-indep directories to usr/share/GNUstep
+	foreach my $directory (@ARCH_INDEP_DIRS) {
+		if (-d "$tmp/$LIB_ROOT/$directory") {
+			mkpath "$tmp/$SHARE_ROOT/$directory";
+			rename "$tmp/$LIB_ROOT/$directory", "$tmp/$SHARE_ROOT/$directory";
+		}
+	}
+
+	if (-d "$tmp/$LIB_ROOT/DTDs") {
+		mkpath "$tmp/usr/share/xml/gnustep";
+		rename "$tmp/$LIB_ROOT/DTDs", "$tmp/usr/share/xml/gnustep"
+	}
+
+	if (-d "$tmp/$LIB_ROOT/Images") {
+		mkpath "$tmp/usr/share/pixmaps/GNUstep";
+		rename "$tmp/$LIB_ROOT/Images", "$tmp/usr/share/pixmaps/GNUstep"
+	}
+
+	if (-d "$tmp/$LIB_ROOT/Sounds") {
+		mkpath "$tmp/usr/share/sounds/GNUstep";
+		rename "$tmp/$LIB_ROOT/Sounds", "$tmp/usr/share/sounds/GNUstep"
+	}
+
+	# move library resources to usr/share/GNUstep/Libraries
+	if (-d "$tmp/$LIB_ROOT/Libraries/Resources") {
+		mkpath "$tmp/$SHARE_ROOT/Libraries";
+		rename "$tmp/$LIB_ROOT/Libraries/Resources", "$tmp/$SHARE_ROOT/Libraries";
+	}
+
+	# find frameworks and move resources and headers
+	if (-d "$tmp/$LIB_ROOT/Frameworks") {
+		opendir FRAMEWORKDIR, "$tmp/$LIB_ROOT/Frameworks";
+		my @frameworks = grep !/^\./, readdir FRAMEWORKDIR;
+		closedir FRAMEWORKDIR;
+		foreach my $framework (@frameworks) {
+			my $fwdir = "$tmp/$LIB_ROOT/Frameworks/$framework";
+			opendir CURFWDIR, "$fwdir/Versions";
+			my @versions = grep !/^(\.|Current$)/, readdir CURFWDIR;
+			closedir CURFWDIR;
+			foreach my $version (@versions) {
+				if (-d "$fwdir/Versions/$version/Headers") {
+					mkpath "$tmp/$INCLUDE_ROOT/Frameworks/$framework/Versions/$version";
+					rename "$tmp/$LIB_ROOT/Frameworks/$framework/Versions/$version/Headers", "$tmp/usr/include/GNUstep/Frameworks/$framework/Versions/$version";
+					symlink "../../../../../../include/GNUstep/Frameworks/$framework/Versions/$version", "$tmp/$LIB_ROOT/Frameworks/$framework/Versions/$version/Headers";
+				}
+				if (-d "$fwdir/Versions/$version/Resources") {
+					mkpath "$tmp/$SHARE_ROOT/Frameworks/$framework/Versions/$version";
+					rename "$tmp/$LIB_ROOT/Frameworks/$framework/Versions/$version/Resources", "$tmp/usr/share/GNUstep/Frameworks/$framework/Versions/$version";
+					symlink "../../../../../../share/GNUstep/Frameworks/$framework/Versions/$version", "$tmp/$LIB_ROOT/Frameworks/$framework/Versions/$version/Resources";
+				}
+			}
+			if (-l "$fwdir/Headers") {
+				my $linkend = readlink "$fwdir/Versions/Current";
+				symlink "Versions/$linkend", "$tmp/$INCLUDE_ROOT/Frameworks/$framework/Headers";
+			}
+			if (-l "$fwdir/Resources") {
+				my $linkend = readlink "$fwdir/Versions/Current";
+				symlink "Versions/$linkend", "$tmp/$SHARE_ROOT/Frameworks/$framework/Resources";
+			}
+		}
+	}
+}
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+This program is not part of debhelper.
+
+=head1 AUTHOR
+
+Hubert Chan <uhoreg@debian.org>
+
+=cut

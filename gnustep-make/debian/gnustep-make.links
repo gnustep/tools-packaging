@@ -1,0 +1,9 @@
+# Compatibility symlink
+usr/bin/dh_gnustep 			usr/bin/gsdh_gnustep
+usr/share/man/man1/dh_gnustep.1.gz	usr/share/man/man1/gsdh_gnustep.1.gz
+
+# Use config.{guess,sub} provided by autotools-dev instead of our own.
+# They are replaced anyway when the gnustep-make package is built but
+# the symlinks ensure the files are always up-to-date.
+usr/share/misc/config.guess	usr/share/GNUstep/Makefiles/config.guess
+usr/share/misc/config.sub	usr/share/GNUstep/Makefiles/config.sub

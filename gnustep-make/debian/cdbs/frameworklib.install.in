@@ -1,0 +1,3 @@
+@GNUSTEP_SYSTEM_LIBRARIES@/lib@FRAMEWORK@.so.*
+@GNUSTEP_SYSTEM_LIBRARY@/Frameworks/@FRAMEWORK@.framework/Versions/@FRAMEWORKVER@/*.so.*
+@GNUSTEP_SYSTEM_LIBRARY@/Frameworks/@FRAMEWORK@.framework/Versions/@FRAMEWORKVER@/Resources
