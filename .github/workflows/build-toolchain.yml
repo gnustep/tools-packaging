@@ -28,28 +28,20 @@ jobs:
           sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git
 
       - name: Build libobjc2
-        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -o libobjc2
-        env:
-          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -o libobjc2 --extract-only
+          cd build/debian/libobjc2
 
-      - name: Build libdispatch
-        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg libdispatch --skip-update
-        env:
-          DEBIAN_FRONTEND: noninteractive
-          
-      - name: Build gnustep-make
-        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg gnustep-make --skip-update
-        env:
-          DEBIAN_FRONTEND: noninteractive
-      
-      - name: Build gnustep-base
-        run: sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --only-pkg gnustep-base --skip-update
+          sudo dpkg-source --build .
+          sudo debuild -us -uc
+          dpkg -i ../libobjc2*.deb
+          cd ../../..
         env:
           DEBIAN_FRONTEND: noninteractive
 
       - name: List Resulting Packages
         run: |
-          cd /var/cache/pbuilder/result
+          cd build/debian
           find . -type f \( -name "*.deb" -o -name "*.changes" -o -name "*.dsc" \) -exec ls -l {} \;
 
       - name: Archive Packages
