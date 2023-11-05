@@ -47,6 +47,12 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
       
+      - name: Build gnustep-base
+        run: |
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -w -o gnustep-base
+        env:
+          DEBIAN_FRONTEND: noninteractive
+      
       - name: Archive Packages
         run: |
           cd build/debian
