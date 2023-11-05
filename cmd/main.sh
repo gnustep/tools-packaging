@@ -80,6 +80,7 @@ function usage {
     echo "  -a, --architecture: Architecture to build the packages for. Default: ${ARCHITECTURE}"
     echo "  -o, --only-pkg: Only build the specified package"
     echo "  -u, --skip-update: Skip updating the pbuilder base tarball"
+    echo "  -e, --extract-only: Skip package build process"
 }
 
 function main {
@@ -135,6 +136,10 @@ case "$1" in
         echo "Error: Argument for $1 is missing" >&2
         exit 1
     fi
+    ;;
+    -e | --extract-only)
+    EXTRACT_ONLY=1
+    shift
     ;;
     -*|--*=) # unsupported flags
     echo "Error: Unsupported flag $1" >&2
