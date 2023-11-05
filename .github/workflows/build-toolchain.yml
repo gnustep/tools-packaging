@@ -35,6 +35,24 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
       
+      - name: Build libdispatch
+        run: |
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o libdispatch
+        env:
+          DEBIAN_FRONTEND: noninteractive
+      
+      - name: Build gnustep-make
+        run: |
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o gnustep-make
+        env:
+          DEBIAN_FRONTEND: noninteractive
+      
+      - name: Build gnustep-base
+        run: |
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o gnustep-base
+        env:
+          DEBIAN_FRONTEND: noninteractive
+      
       - name: Archive Packages
         run: |
           cd build/debian
@@ -43,5 +61,5 @@ jobs:
       - name: Upload Packages
         uses: actions/upload-artifact@v3
         with:
-          name: packages-${{ matrix.architecture }}
+          name: packages-bookworm-${{ matrix.architecture }}
           path: build/debian/packages-${{ matrix.architecture }}.tar.gz
