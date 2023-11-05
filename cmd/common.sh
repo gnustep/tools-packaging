@@ -12,6 +12,7 @@ SOURCE_TEMP_DIR=$SOURCE_DIR/../build
 # Build only this package
 ONLY_PKG=""
 EXTRACT_ONLY=0
+NO_SANDBOX=0
 VERBOSE=1
 
 # Debian release version. By default the unstable version (sid) is used.
