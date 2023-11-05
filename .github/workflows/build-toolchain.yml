@@ -19,7 +19,7 @@ jobs:
       image: debian:bookworm
     strategy:
       matrix:
-        architecture: [arm64, amd64]
+        architecture: [amd64]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
