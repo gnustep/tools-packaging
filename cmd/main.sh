@@ -43,6 +43,12 @@ function checkRTDependenciesNoFail {
             echo "ERROR: Install it with 'sudo apt install apt-utils'"
             exit 1
         fi
+    else
+        if ! command -v gdebi &> /dev/null; then
+            echo "ERROR: gdebi is not installed, but required as we are not using a sandbox!"
+            echo "ERROR: Install it with 'sudo apt install gdebi-core'"
+            exit 1
+        fi
     fi
 
     # Check if objdump is installed
