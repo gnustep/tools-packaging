@@ -35,6 +35,8 @@ jobs:
           sudo mk-build-deps --install --remove --tool='apt-get -y --no-install-recommends' debian/control
           sudo dpkg-source --build .
 
+          rm *.buildinfo *.changes
+
           sudo debuild -us -uc
 
           sudo dpkg -i ../libobjc2*.deb
