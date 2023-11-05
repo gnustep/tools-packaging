@@ -43,12 +43,6 @@ function checkRTDependenciesNoFail {
             echo "ERROR: Install it with 'sudo apt install apt-utils'"
             exit 1
         fi
-    else
-        if ! command -v gdebi &> /dev/null; then
-            echo "ERROR: gdebi is not installed, but required as we are not using a sandbox!"
-            echo "ERROR: Install it with 'sudo apt install gdebi-core'"
-            exit 1
-        fi
     fi
 
     # Check if objdump is installed
@@ -92,7 +86,7 @@ function usage {
     echo "  -o, --only-pkg: Only build the specified package"
     echo "  -u, --skip-update: Skip updating the pbuilder base tarball"
     echo "  -e, --extract-only: Skip package build process"
-    echo "  -n, --no-sandbox: Do not build packages with pbuilder"
+    echo "  -w, --worker: This is only intended for a worker node. Do not use this option as it modifies the rootfs directly!"
 }
 
 function main {
@@ -154,7 +148,7 @@ case "$1" in
     SKIP_PBUILDER_INIT=1
     shift
     ;;
-    -n | --no-sandbox)
+    -w | --worker)
     NO_SANDBOX=1
     SKIP_PBUILDER_INIT=1
     shift

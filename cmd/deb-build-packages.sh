@@ -214,14 +214,19 @@ function buildSourcePackage {
         debuild -us -uc
         if test $? -ne 0; then
             echo "ERROR: debuild for package ${NAME} failed!"
+            return 1
         fi
 
         # We need to install the generated packages after building
         # as other phases may depend on this phase
-        #
-        # We use gdebi to resolve dependencies between the packages in build/debian
-        echo "INFO: Installing package ${NAME} via gdebi"
-        gdebi -i ../${NAME}*.deb
+        echo "INFO: Installing package ${NAME} via dpkg"
+
+        # Parse installation order from our JSON description file
+        local descFile="${SOURCE_DESC_DIR}/${NAME}.json"
+
+        # Parse installation_order string array and get files
+        local debs=$(cat ${descFile} | jq -r '.installation_order[]' | xargs -I{} find .. -name '{}')
+        dpkg -i ${debs}
     else
         # Use pbuilder to build the package in a sandbox with our custom
         # pbuilder configuration

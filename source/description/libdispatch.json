@@ -2,16 +2,8 @@
     "name": "libdispatch",
     "tag": "swift-5.5-RELEASE",
     "git": "https://github.com/apple/swift-corelibs-libdispatch.git",
-    "dist": [
-        {
-            "friendly_name": "Debian GNU/Linux",
-            "name": "debian",
-            "platform": "linux-gnu",
-            "packaging": "dpkg",
-            "config_path": "debian/",
-            "patches": [
-                "blocksruntime.patch"
-            ]
-        }
+    "installation_order": [
+        "libdispatch_*.deb",
+        "libdispatch-dev*.deb"
     ]
 }
