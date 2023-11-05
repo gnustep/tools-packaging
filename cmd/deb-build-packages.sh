@@ -203,19 +203,41 @@ function buildSourcePackage {
 
     cd ${SOURCE_TEMP_DEB_DIR}/${NAME}
 
+    if test "${NO_SANDBOX}" -eq 1; then
+        # Install build dependencies
+        mk-build-deps --install --remove --tool='apt-get -y --no-install-recommends' debian/control
+        # Remove left-overs
+        rm *.buildinfo *.changes
+    fi
+
     # Configure the package and generate a .dsc file
 +    dpkg-source --build .
 
-    # Use pbuilder to build the package with our custom pbuilder configuration
-    #
-    # Using pdebuild does not work as the pdebuild script checks for missing
-    # dependencies with dpkg-checkbuilddeps on the HOST system!
-    # This means we need to install the dependencies on the host system aswell
-    # which is rediculous.
-    pbuilder build  ${PBUILDER_DEFAULT_ARGS} ../${NAME}*.dsc
-    if test $? -ne 0; then
-        echo "ERROR: Failed to build package ${NAME}!"
-        return 1
+    if test "${NO_SANDBOX}" -eq 1; then
+        # Use debuild and skip signing as we later sign the Release file
+        # from the mirror
+        debuild -us -uc
+        if test $? -ne 0; then
+            echo "ERROR: debuild for package ${NAME} failed!"
+        fi
+
+        # We need to install the generated packages after building
+        # as other phases may depend on this phase
+        echo "INFO: Installing package ${NAME} via apt"
+        dpkg -i ../${NAME}*.deb
+    else
+        # Use pbuilder to build the package in a sandbox with our custom
+        # pbuilder configuration
+        # 
+        # Using pdebuild does not work as the pdebuild script checks for missing
+        # dependencies with dpkg-checkbuilddeps on the HOST system!
+        # This means we need to install the dependencies on the host system aswell
+        # which is rediculous.
+        pbuilder build  ${PBUILDER_DEFAULT_ARGS} ../${NAME}*.dsc
+        if test $? -ne 0; then
+            echo "ERROR: Failed to build package ${NAME}!"
+            return 1
+        fi
     fi
 }
 
@@ -256,7 +278,7 @@ function findSourcePackage {
 }
 
 function buildPackages {
-    if test "$EXTRACT_ONLY" -eq 0; then
+    if test "$SKIP_PBUILDER_INIT" -eq 0; then
         if ! pbuilderInit ; then
             echo "ERROR: Failed to initialize pbuilder!"
             return 1
