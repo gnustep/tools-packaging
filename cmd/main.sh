@@ -29,24 +29,29 @@ function checkRootNoFail {
 # Check if all required binaries are installed.
 # I do not understand why nobody does this when writing a shell script -_-
 function checkRTDependenciesNoFail {
-    # Check if pbuilder is installed
-    if ! command -v pbuilder &> /dev/null; then
-        echo "ERROR: pbuilder is not installed!"
-        echo "ERROR: Install it with 'sudo apt install pbuilder'"
-        exit 1
+    # The following dependencies are only needed when building in a sandbox
+    if test $NO_SANDBOX -eq 0; then
+        # Check if pbuilder is installed
+        if ! command -v pbuilder &> /dev/null; then
+            echo "ERROR: pbuilder is not installed!"
+            echo "ERROR: Install it with 'sudo apt install pbuilder'"
+            exit 1
+        fi
+        # Check if we can create local debian repositories
+        if ! command -v apt-ftparchive &> /dev/null; then
+            echo "ERROR: apt-ftparchive is not installed! We need to create local debian repositories!"
+            echo "ERROR: Install it with 'sudo apt install apt-utils'"
+            exit 1
+        fi
     fi
+
     # Check if objdump is installed
     if ! command -v objdump &> /dev/null; then
         echo "ERROR: objdump is not installed!"
         echo "ERROR: Install it with 'sudo apt install binutils'"
         exit 1
     fi
-    # Check if we can create local debian repositories
-    if ! command -v apt-ftparchive &> /dev/null; then
-        echo "ERROR: apt-ftparchive is not installed! We need to create local debian repositories!"
-        echo "ERROR: Install it with 'sudo apt install apt-utils'"
-        exit 1
-    fi
+    
     # Check if we have dpkg-source installed
     if ! command -v dpkg-source &> /dev/null; then
         echo "ERROR: dpkg-dev is not installed!"
@@ -81,6 +86,7 @@ function usage {
     echo "  -o, --only-pkg: Only build the specified package"
     echo "  -u, --skip-update: Skip updating the pbuilder base tarball"
     echo "  -e, --extract-only: Skip package build process"
+    echo "  -n, --no-sandbox: Do not build packages with pbuilder"
 }
 
 function main {
@@ -139,6 +145,12 @@ case "$1" in
     ;;
     -e | --extract-only)
     EXTRACT_ONLY=1
+    SKIP_PBUILDER_INIT=1
+    shift
+    ;;
+    -n | --no-sandbox)
+    NO_SANDBOX=1
+    SKIP_PBUILDER_INIT=1
     shift
     ;;
     -*|--*=) # unsupported flags
