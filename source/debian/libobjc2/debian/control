@@ -9,9 +9,19 @@ Package: libobjc2
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: GNUstep Objective-C 2.0 Runtime
+ A modern Objective-C Runtime supporting all ofthe Objective-C 2.0
+ features, including
+ - The modern Objective-C runtime APIs.
+ - Blocks (closures).
+ - Synthesised property accessors.
+ - Efficient support for @synchronized()
+ - Type-dependent dispatch.
+ - Associated reference APIs introduced with Mac OS X 10.6.
+ - Automatic reference counting APIs introduced with Mac OS X 10.7
 
 Package: libobjc2-dev
 Section: libdevel
 Architecture: any
 Depends: libobjc2 (= ${binary:Version}), ${misc:Depends}
 Description: GNUstep Objective-C 2.0 Runtime (development files)
+  Development files for the GNUstep Objective-C 2.0 runtime.
