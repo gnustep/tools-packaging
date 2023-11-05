@@ -218,8 +218,10 @@ function buildSourcePackage {
 
         # We need to install the generated packages after building
         # as other phases may depend on this phase
-        echo "INFO: Installing package ${NAME} via apt"
-        dpkg -i ../${NAME}*.deb
+        #
+        # We use gdebi to resolve dependencies between the packages in build/debian
+        echo "INFO: Installing package ${NAME} via gdebi"
+        gdebi -i ../${NAME}*.deb
     else
         # Use pbuilder to build the package in a sandbox with our custom
         # pbuilder configuration
