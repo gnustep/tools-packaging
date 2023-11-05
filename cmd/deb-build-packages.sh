@@ -172,11 +172,6 @@ function buildSourcePackage {
         echo "ERROR: Package location ${PACKAGE_LOCATION} does not exist!"
         return 1
     fi
-    # Check if the destination exists
-    if test ! -d ${DESTINATION}; then
-        echo "ERROR: Destination ${DESTINATION} does not exist!"
-        return 1
-    fi
 
     # Check if the source tarball exists in temp dir
     if test ! -f ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz; then
