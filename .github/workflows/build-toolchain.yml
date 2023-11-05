@@ -15,43 +15,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: debian:bookworm
     strategy:
       matrix:
-        architecture: [amd64]
-    steps:
+        architecture: [arm64, amd64]
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian
+          apt-get update
+          apt-get install -y --no-install-recommends binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian
 
       - name: Build libobjc2
         run: |
-          sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --extract-only -o libobjc2
-          cd build/debian/libobjc2
-
-          sudo mk-build-deps --install --remove --tool='apt-get -y --no-install-recommends' debian/control
-          sudo rm *.buildinfo *.changes
-
-          sudo dpkg-source --build .
-          sudo debuild -us -uc
-
-          sudo dpkg -i ../libobjc2*.deb
-          sudo apt-get remove --purge *-build-deps
-
-          cd ../../..
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o libobjc2
         env:
           DEBIAN_FRONTEND: noninteractive
 
-      - name: List Resulting Packages
+      - name: Archive and Upload Resulting Packages
         run: |
           cd build/debian
-          find . -type f \( -name "*.deb" -o -name "*.changes" -o -name "*.dsc" \) -exec ls -l {} \;
-
-      - name: Archive Packages
+          tar -cvzf packages-${{ matrix.architecture }}.tar.gz $(find . -type f \( -name "*.deb" -o -name "*.changes" -o -name "*.dsc" -o -name "*.ddeb" \))
         uses: actions/upload-artifact@v3
         with:
           name: packages-${{ matrix.architecture }}
-          path: build/debian/*.{deb,changes,dsc}
+          path: build/debian/packages-${{ matrix.architecture }}.tar.gz
