@@ -32,12 +32,18 @@ jobs:
           sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --extract-only -o libobjc2
           cd build/debian/libobjc2
 
+          sudo mk-build-deps --install --remove --tool='apt-get -y --no-install-recommends' debian/control
           sudo dpkg-source --build .
+
           sudo debuild -us -uc
-          dpkg -i ../libobjc2*.deb
+
+          sudo dpkg -i ../libobjc2*.deb
+          sudo apt-get remove --purge *-build-deps
+
           cd ../../..
         env:
           DEBIAN_FRONTEND: noninteractive
+
 
       - name: List Resulting Packages
         run: |
