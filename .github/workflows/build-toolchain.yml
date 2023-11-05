@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian
+          apt-get install -y --no-install-recommends binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian gdebi-core
 
       - name: Build libobjc2
         run: |
