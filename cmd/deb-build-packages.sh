@@ -191,6 +191,13 @@ function buildSourcePackage {
     echo "INFO: Extracting source tarball ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz into ${SOURCE_TEMP_DEB_DIR}/${NAME}..."
     tar -xzf ${SOURCE_TEMP_DEB_DIR}/${NAME}*.orig.tar.gz -C "${SOURCE_TEMP_DEB_DIR}/${NAME}"
 
+    # Check if we should continue building the package
+    if test $EXTRACT_ONLY -ne 0; then
+        echo "Skipping build process as EXTRACT_ONLY is specified!"
+        return 0
+    fi
+
+
     # Build the package
     echo "INFO: Building package ${NAME} from source with pdebuild..."
 
@@ -249,12 +256,14 @@ function findSourcePackage {
 }
 
 function buildPackages {
-    if ! pbuilderInit; then
-        echo "ERROR: Failed to initialize pbuilder!"
-        return 1
+    if test "$EXTRACT_ONLY" -eq 0; then
+        if ! pbuilderInit ; then
+            echo "ERROR: Failed to initialize pbuilder!"
+            return 1
+        fi
     fi
 
-    # Get a list of all debian package configurations
+        # Get a list of all debian package configurations
     listSourcePackages
 
     for phase in "${BUILD_PHASES_ARRAY[@]}"; do
