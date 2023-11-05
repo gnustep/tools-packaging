@@ -27,29 +27,23 @@ jobs:
       - name: Install Dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian gdebi-core
+          apt-get install -y --no-install-recommends binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian
 
       - name: Build libobjc2
         run: |
-          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o libobjc2
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -w -o libobjc2
         env:
           DEBIAN_FRONTEND: noninteractive
       
       - name: Build libdispatch
         run: |
-          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o libdispatch
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -w -o libdispatch
         env:
           DEBIAN_FRONTEND: noninteractive
       
       - name: Build gnustep-make
         run: |
-          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o gnustep-make
-        env:
-          DEBIAN_FRONTEND: noninteractive
-      
-      - name: Build gnustep-base
-        run: |
-          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o gnustep-base
+          ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -w -o gnustep-make
         env:
           DEBIAN_FRONTEND: noninteractive
       
