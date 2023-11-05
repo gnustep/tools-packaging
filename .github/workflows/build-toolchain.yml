@@ -34,11 +34,13 @@ jobs:
           ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --no-sandbox -o libobjc2
         env:
           DEBIAN_FRONTEND: noninteractive
-
-      - name: Archive and Upload Resulting Packages
+      
+      - name: Archive Packages
         run: |
           cd build/debian
           tar -cvzf packages-${{ matrix.architecture }}.tar.gz $(find . -type f \( -name "*.deb" -o -name "*.changes" -o -name "*.dsc" -o -name "*.ddeb" \))
+
+      - name: Upload Packages
         uses: actions/upload-artifact@v3
         with:
           name: packages-${{ matrix.architecture }}
