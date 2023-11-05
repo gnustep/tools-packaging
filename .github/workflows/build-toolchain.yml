@@ -25,11 +25,11 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git
+          sudo apt-get install -y --no-install-recommends pbuilder binutils apt-utils dpkg-dev debian-archive-keyring equivs tar jq git devscripts build-essential lintian
 
       - name: Build libobjc2
         run: |
-          sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} -o libobjc2 --extract-only
+          sudo ./cmd/main.sh --release bookworm --architecture ${{ matrix.architecture }} --extract-only -o libobjc2
           cd build/debian/libobjc2
 
           sudo dpkg-source --build .
