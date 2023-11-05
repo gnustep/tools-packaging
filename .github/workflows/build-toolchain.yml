@@ -33,7 +33,7 @@ jobs:
           cd build/debian/libobjc2
 
           sudo mk-build-deps --install --remove --tool='apt-get -y --no-install-recommends' debian/control
-          rm *.buildinfo *.changes
+          sudo rm *.buildinfo *.changes
 
           sudo dpkg-source --build .
           sudo debuild -us -uc
