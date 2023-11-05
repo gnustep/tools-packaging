@@ -1,5 +1,0 @@
-# Intentional. Initialization of GNUstep filesystem
-gnustep-make: package-contains-empty-directory
-
-# According to upstream, false positive
-gnustep-make: old-style-config-script
