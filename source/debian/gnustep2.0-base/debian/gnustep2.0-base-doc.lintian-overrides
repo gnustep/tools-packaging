@@ -1,3 +1,0 @@
-# Documentation is installed in the standard GNUstep location
-# /usr/share/GNUstep/Documentation with symlinks to /usr/share/doc.
-gnustep-base-doc: package-contains-documentation-outside-usr-share-doc
